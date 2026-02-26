@@ -9,19 +9,21 @@ outputs:
 runs:
   using: composite
   steps:
+    # s2geography CMakeLists expects s2geography_c at ../s2geography_c relative to itself,
+    # so we check out into _deps/s2geography and _deps/s2geography_c as siblings.
     - name: Checkout s2geography
       uses: actions/checkout@v4
       with:
         repository: paleolimbot/s2geography
         ref: main
-        path: _s2geography
+        path: _deps/s2geography
 
     - name: Checkout s2geography_c
       uses: actions/checkout@v4
       with:
-        repository: JuliaGeo/s2geography_c
+        repository: asinghvi17/s2geography_c
         ref: main
-        path: _s2geography_c
+        path: _deps/s2geography_c
 
     - name: Setup conda
       uses: conda-incubator/setup-miniconda@v3
@@ -39,7 +41,7 @@ runs:
     - name: Configure
       shell: bash -l {0}
       run: |
-        cmake -S _s2geography -B _build \
+        cmake -S _deps/s2geography -B _build \
           -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=ON \
