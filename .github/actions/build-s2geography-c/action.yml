@@ -54,9 +54,13 @@ runs:
         cmake --install _build/s2geography
 
     # Step 2: Build s2geography_c (C API) against installed s2geography
+    # The s2geography installed cmake config references OpenSSL::SSL,
+    # but doesn't auto-call find_package(OpenSSL). Patch s2geography_c
+    # to find it before find_package(s2geography).
     - name: Configure s2geography_c
       shell: bash -l {0}
       run: |
+        sed -i '1i find_package(OpenSSL REQUIRED)' _deps/s2geography_c/CMakeLists.txt
         cmake -S _deps/s2geography_c -B _build/s2geography_c \
           -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_BUILD_TYPE=Release \
