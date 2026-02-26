@@ -3,14 +3,12 @@ description: Build the s2geography C API library from source (temporary until JL
 
 outputs:
   lib-path:
-    description: Path to directory containing the built shared library
+    description: Colon-separated paths to directories containing built shared libraries
     value: ${{ steps.paths.outputs.lib_path }}
 
 runs:
   using: composite
   steps:
-    # s2geography CMakeLists expects s2geography_c at ../s2geography_c relative to itself,
-    # so we check out into _deps/s2geography and _deps/s2geography_c as siblings.
     - name: Checkout s2geography
       uses: actions/checkout@v4
       with:
@@ -38,24 +36,44 @@ runs:
       shell: bash -l {0}
       run: mamba install -y -n s2geography-dev cxx-compiler libabseil cmake openssl
 
-    - name: Configure
+    # Step 1: Build and install s2geography (C++ library)
+    - name: Configure s2geography
       shell: bash -l {0}
       run: |
-        cmake -S _deps/s2geography -B _build \
+        cmake -S _deps/s2geography -B _build/s2geography \
           -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=ON \
-          -DS2GEOGRAPHY_BUILD_C_API=ON \
+          -DCMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/_install" \
           -DS2GEOGRAPHY_S2_SOURCE=BUNDLED
 
-    - name: Build
+    - name: Build and install s2geography
       shell: bash -l {0}
-      run: cmake --build _build --config Release -j4
+      run: |
+        cmake --build _build/s2geography --config Release -j4
+        cmake --install _build/s2geography
+
+    # Step 2: Build s2geography_c (C API) against installed s2geography
+    - name: Configure s2geography_c
+      shell: bash -l {0}
+      run: |
+        cmake -S _deps/s2geography_c -B _build/s2geography_c \
+          -DCMAKE_CXX_STANDARD=17 \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_SHARED_LIBS=ON \
+          -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/_install"
+
+    - name: Build s2geography_c
+      shell: bash -l {0}
+      run: cmake --build _build/s2geography_c --config Release -j4
 
     - name: Set library paths
       id: paths
       shell: bash -l {0}
       run: |
-        BUILD_DIR="${GITHUB_WORKSPACE}/_build"
-        LIB_PATH="${BUILD_DIR}/s2geography_c:${BUILD_DIR}:${BUILD_DIR}/_deps/s2-build:${BUILD_DIR}/_deps/nanoarrow-build"
+        S2GEOG_LIB="${GITHUB_WORKSPACE}/_install/lib"
+        S2GEOG_C_LIB="${GITHUB_WORKSPACE}/_build/s2geography_c"
+        S2_LIB="${GITHUB_WORKSPACE}/_build/s2geography/_deps/s2-build"
+        NANOARROW_LIB="${GITHUB_WORKSPACE}/_build/s2geography/_deps/nanoarrow-build"
+        LIB_PATH="${S2GEOG_C_LIB}:${S2GEOG_LIB}:${S2_LIB}:${NANOARROW_LIB}"
         echo "lib_path=${LIB_PATH}" >> "$GITHUB_OUTPUT"
