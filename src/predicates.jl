@@ -4,10 +4,34 @@
 
 const S2_PREDICATES = (:intersects, :equals, :contains, :touches)
 
+const _PREDICATE_DOCS = Dict(
+    :intersects => """
+        intersects(geom1, geom2) -> Bool
+
+    Test whether two geometries intersect (share any portion of space).
+    """,
+    :equals => """
+        equals(geom1, geom2) -> Bool
+
+    Test whether two geometries are spatially equal.
+    """,
+    :contains => """
+        contains(geom1, geom2) -> Bool
+
+    Test whether `geom1` contains `geom2`.
+    """,
+    :touches => """
+        touches(geom1, geom2) -> Bool
+
+    Test whether two geometries touch (share a boundary but not interior).
+    """,
+)
+
 for jl_funcname in S2_PREDICATES
     c_funcname = Symbol("s2geog_$(jl_funcname)")
+    docstr = _PREDICATE_DOCS[jl_funcname]
 
-    @eval function $jl_funcname(geom1, geom2)::Bool
+    @eval @doc $docstr function $jl_funcname(geom1, geom2)::Bool
         $jl_funcname(GI.trait(geom1), geom1, GI.trait(geom2), geom2)
     end
 
@@ -132,13 +156,37 @@ end
 # Boolean operations
 # ============================================================
 
+const _BOOLEAN_OP_DOCS = Dict(
+    :intersection => """
+        intersection(geom1, geom2) -> S2Geog
+
+    Compute the intersection of two geometries.
+    """,
+    :s2_union => """
+        s2_union(geom1, geom2) -> S2Geog
+
+    Compute the union of two geometries. Named `s2_union` to avoid shadowing `Base.union`.
+    """,
+    :difference => """
+        difference(geom1, geom2) -> S2Geog
+
+    Compute the difference of two geometries (part of `geom1` not in `geom2`).
+    """,
+    :sym_difference => """
+        sym_difference(geom1, geom2) -> S2Geog
+
+    Compute the symmetric difference of two geometries.
+    """,
+)
+
 for (jl_name, c_name) in (
     (:intersection, :s2geog_intersection),
     (:s2_union, :s2geog_union),
     (:difference, :s2geog_difference),
     (:sym_difference, :s2geog_sym_difference),
 )
-    @eval function $jl_name(geom1, geom2)
+    docstr = _BOOLEAN_OP_DOCS[jl_name]
+    @eval @doc $docstr function $jl_name(geom1, geom2)
         g1 = GI.convert(S2Geog, geom1)
         g2 = GI.convert(S2Geog, geom2)
         idx1 = s2geog_shape_index_new(g1.ptr)

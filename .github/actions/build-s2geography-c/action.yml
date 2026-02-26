@@ -1,0 +1,59 @@
+name: Build s2geography_c
+description: Build the s2geography C API library from source (temporary until JLL is available)
+
+outputs:
+  lib-path:
+    description: Path to directory containing the built shared library
+    value: ${{ steps.paths.outputs.lib_path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout s2geography
+      uses: actions/checkout@v4
+      with:
+        repository: paleolimbot/s2geography
+        ref: main
+        path: _s2geography
+
+    - name: Checkout s2geography_c
+      uses: actions/checkout@v4
+      with:
+        repository: JuliaGeo/s2geography_c
+        ref: main
+        path: _s2geography_c
+
+    - name: Setup conda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniforge-variant: Miniforge3
+        miniforge-version: latest
+        activate-environment: s2geography-dev
+        use-mamba: true
+        mamba-version: "*"
+
+    - name: Install C++ dependencies
+      shell: bash -l {0}
+      run: mamba install -y -n s2geography-dev cxx-compiler libabseil cmake openssl
+
+    - name: Configure
+      shell: bash -l {0}
+      run: |
+        cmake -S _s2geography -B _build \
+          -DCMAKE_CXX_STANDARD=17 \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_SHARED_LIBS=ON \
+          -DS2GEOGRAPHY_BUILD_C_API=ON \
+          -DS2GEOGRAPHY_S2_SOURCE=BUNDLED
+
+    - name: Build
+      shell: bash -l {0}
+      run: cmake --build _build --config Release -j4
+
+    - name: Set library paths
+      id: paths
+      shell: bash -l {0}
+      run: |
+        BUILD_DIR="${GITHUB_WORKSPACE}/_build"
+        LIB_PATH="${BUILD_DIR}/s2geography_c:${BUILD_DIR}:${BUILD_DIR}/_deps/s2-build:${BUILD_DIR}/_deps/nanoarrow-build"
+        echo "lib_path=${LIB_PATH}" >> "$GITHUB_OUTPUT"

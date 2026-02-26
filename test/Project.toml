@@ -1,0 +1,7 @@
+[deps]
+GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+S2Geography = "1ece8e93-3e15-4f65-8d0f-0986d38d672b"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+S2Geography = {path = ".."}

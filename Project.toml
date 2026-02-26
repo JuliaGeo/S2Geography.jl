@@ -6,15 +6,8 @@ version = "0.1.0"
 [deps]
 CEnum = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
-GeometryOps = "3251bfac-6a57-4b6d-aa61-ac1fef2975ab"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
 
 [compat]
-CEnum = "0.5.0"
-GeoInterface = "1.6.0"
-GeometryOps = "0.1.38"
+CEnum = "0.5"
+GeoInterface = "1.6"
+julia = "1.11"

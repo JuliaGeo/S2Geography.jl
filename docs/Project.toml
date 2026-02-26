@@ -1,0 +1,8 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+NaturalEarth = "436b0209-26ab-4e65-94a9-6526d86fea76"
+S2Geography = "1ece8e93-3e15-4f65-8d0f-0986d38d672b"
+
+[sources]
+S2Geography = {path = ".."}
