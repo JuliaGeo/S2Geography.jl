@@ -24,7 +24,7 @@ jobs:
         version: ['1.11']
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build s2geography_c
         id: s2build
@@ -50,7 +50,7 @@ jobs:
       contents: write
       statuses: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build s2geography_c
         id: s2build
