@@ -9,11 +9,12 @@ outputs:
 runs:
   using: composite
   steps:
+    # TODO: Switch to paleolimbot/s2geography main once s2_touches is merged upstream
     - name: Checkout s2geography
       uses: actions/checkout@v4
       with:
-        repository: paleolimbot/s2geography
-        ref: main
+        repository: asinghvi17/s2geography
+        ref: implement-s2-touches
         path: _deps/s2geography
 
     - name: Checkout s2geography_c
