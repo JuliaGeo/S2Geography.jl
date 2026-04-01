@@ -34,7 +34,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
 
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
 
       - uses: julia-actions/julia-buildpkg@v1
 
@@ -60,7 +60,7 @@ jobs:
         with:
           version: '1'
 
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
 
       - uses: julia-actions/julia-buildpkg@v1
 
