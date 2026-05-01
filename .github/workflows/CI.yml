@@ -30,7 +30,7 @@ jobs:
         id: s2build
         uses: ./.github/actions/build-s2geography-c
 
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: ${{ matrix.version }}
 
@@ -56,7 +56,7 @@ jobs:
         id: s2build
         uses: ./.github/actions/build-s2geography-c
 
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: '1'
 
