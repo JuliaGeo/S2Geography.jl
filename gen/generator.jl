@@ -1,13 +1,12 @@
 using Clang.Generators
 using Clang
 using JuliaFormatter: format
+import S2Geography_jll
 
 cd(@__DIR__)
 
 # Path to the s2geography_c header.
-# When a JLL package exists, replace this with:
-#   include_dir = joinpath(S2GeographyC_jll.artifact_dir, "include") |> normpath
-include_dir = normpath(joinpath(@__DIR__, "..", "..", "s2geography_c", "include"))
+include_dir = joinpath(S2Geography_jll.artifact_dir, "include") |> normpath
 
 options = load_options(joinpath(@__DIR__, "generator.toml"))
 

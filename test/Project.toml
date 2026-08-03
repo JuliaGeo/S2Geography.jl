@@ -1,4 +1,6 @@
 [deps]
+Extents = "411431e0-e8b7-467b-b5e0-f676ba4f2910"
+GeoFormatTypes = "68eda718-8dee-11e9-39e7-89f7f65f511f"
 GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
 S2Geography = "1ece8e93-3e15-4f65-8d0f-0986d38d672b"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

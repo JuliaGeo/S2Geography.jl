@@ -1,42 +1,120 @@
 # API Reference
 
-## Types
+```@meta
+CurrentModule = S2Geography
+```
 
 ```@docs
-S2Geog
+S2Geography
+```
+
+## The `Geography` type
+
+```@docs
+Geography
+towkt
+towkb
 ```
 
 ## Predicates
 
+Every predicate takes two geographies and returns a `Bool`, or vectors of
+geographies and returns a `Vector{Bool}`.
+
 ```@docs
-S2Geography.intersects
-S2Geography.equals
-S2Geography.contains
-S2Geography.touches
+contains
+within
+intersects
+disjoint
+equals
+dwithin
 ```
 
-## Measurements
+## Measures
+
+Lengths are in metres and areas in square metres.
 
 ```@docs
-S2Geography.distance
-S2Geography.area
-S2Geography.s2_length
-S2Geography.perimeter
+area
+perimeter
+arclength
+distance
+max_distance
 ```
 
-## Geometry operations
+## Constructions
 
 ```@docs
-S2Geography.centroid
-S2Geography.convex_hull
-S2Geography.boundary
+centroid
+convex_hull
+boundary
+point_on_surface
+closest_point
+shortest_line
+longest_line
 ```
 
-## Boolean operations
+## Overlays
 
 ```@docs
-S2Geography.intersection
-S2Geography.s2_union
-S2Geography.difference
-S2Geography.sym_difference
+intersection
+union
+difference
+sym_difference
+```
+
+## Transformations
+
+```@docs
+simplify
+buffer
+reduce_precision
+segmentize
+tessellate
+tessellate_planar
+```
+
+## Linear referencing
+
+```@docs
+line_interpolate_point
+line_locate_point
+```
+
+## S2 cells
+
+```@docs
+cellid
+covering
+```
+
+## Bounding boxes
+
+```@docs
+GeoInterface.extent(::Geography)
+```
+
+## Indexing and introspection
+
+```@docs
+prepare!
+memory_used
+versions
+```
+
+## Errors
+
+```@docs
+S2GeographyError
+WKTParseError
+```
+
+## Raw C bindings
+
+Everything above is built on a thin, complete wrapping of the s2geography C
+header. It is not part of the public API and comes with no stability promise,
+but it is there if you need something this package does not expose.
+
+```@docs
+S2Geography.CAPI
 ```

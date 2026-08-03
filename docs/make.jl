@@ -17,7 +17,8 @@ makedocs(;
         "Tutorial" => "tutorial.md",
         "API Reference" => "api.md",
     ],
-    warnonly=true,
+    # Only exported names need to appear in the manual; the rest are internals.
+    checkdocs=:exports,
 )
 
 deploydocs(;
