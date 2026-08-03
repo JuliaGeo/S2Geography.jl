@@ -4,11 +4,12 @@
 
 Julia bindings for [s2geography](https://github.com/paleolimbot/s2geography), a geometry library built on Google's [S2](https://s2geometry.io).
 
-S2 works on the sphere rather than the plane. Edges are geodesics, and predicates and measures are exact for longitude/latitude coordinates without having to pick a projection first — no distortion near the poles, no antimeridian special cases, no dateline-crossing bugs.
+S2 works on the sphere rather than the plane. Edges are geodesics, and predicates and measures are exact for longitude/latitude coordinates without having to pick a projection first.  This avoids distortion near the poles, antimeridian special cases, and dateline-crossing bugs.
 
 Distances and areas are reported in SI **metres** and **square metres** on the WGS84 mean sphere.
 
-Binaries come from [`S2Geography_jll`](https://github.com/JuliaBinaryWrappers/S2Geography_jll.jl), so there is nothing to build.
+> [!NOTE]
+> This package was mostly written via AI (Claude) and will likely continue to be so.  However, this _is_ mostly a wrapper package around more stable libraries that are used by the R and Python ecosystems.
 
 ## Installation
 
