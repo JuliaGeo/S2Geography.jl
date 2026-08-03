@@ -1,13 +1,18 @@
 name = "S2Geography"
 uuid = "1ece8e93-3e15-4f65-8d0f-0986d38d672b"
-authors = ["Anshul Singhvi <anshulsinghvi@gmail.com>"]
 version = "0.1.0"
+authors = ["Anshul Singhvi <anshulsinghvi@gmail.com>"]
 
 [deps]
 CEnum = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+S2Geography_jll = "e70b04b4-ac82-5d66-a4c6-86165034a7c0"
 
 [compat]
 CEnum = "0.5"
 GeoInterface = "1.6"
+S2Geography_jll = "0.4.0"
 julia = "1.11"
+
+[workspace]
+projects = ["gen", "test", "docs", "bench"]
