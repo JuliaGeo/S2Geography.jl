@@ -567,11 +567,6 @@ end
 end
 
 @testset "Library metadata" begin
-    v = S2.versions()
-    @test v.s2geometry isa String && !isempty(v.s2geometry)
-    @test v.abseil isa String
-    @test v.openssl isa String
-
     names = S2.kernel_names()
     @test !isempty(names)
     @test "st_area" in names

@@ -99,7 +99,6 @@ GeoInterface.extent(::Geography)
 ```@docs
 prepare!
 memory_used
-versions
 ```
 
 ## Errors

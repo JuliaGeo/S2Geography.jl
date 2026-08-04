@@ -587,18 +587,3 @@ function _endpoints(line)
     first_pt == last_pt && return Tuple{Float64,Float64}[]
     return [first_pt, last_pt]
 end
-
-# --- version information ----------------------------------------------------
-
-"""
-    versions() -> NamedTuple
-
-Versions of the native libraries backing this package.
-"""
-versions() = (
-    s2geometry = CAPI.S2GeogS2GeometryVersion(),
-    abseil = CAPI.S2GeogAbseilVersion(),
-    openssl = CAPI.S2GeogOpenSSLVersion(),
-    geoarrow = CAPI.S2GeogGeoArrowVersion(),
-    nanoarrow = CAPI.S2GeogNanoarrowVersion(),
-)
